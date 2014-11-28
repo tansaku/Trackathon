@@ -4,7 +4,12 @@
 
 <% @name = Hackathon.last.name %>
 <% @end_time = Hackathon.last.end_time %>
-<% @project1 = Hackathon.last.projects.last.name %>
+
+<% if Hackathon.last.projects.last != nil %>
+  <% @project1 = Hackathon.last.projects.last.name %>
+<% else %>
+  <% @project1 = 'Blank' %>
+<% end %>
 
 <div class="gridster">
   <ul>
@@ -24,7 +29,7 @@
 
     <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
       <div id="project-progress-widget" data-id="project" data-view="Project" data-title="<%= @project1 %>" data-min="0" data-max="100"></div>
-    </li> 
+    </li>
 
   </ul>
 

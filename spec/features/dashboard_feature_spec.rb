@@ -5,7 +5,7 @@ describe 'On the dashboard page' do
 
   before do
     @september = Hackathon.create(name: "september", end_time: "2014-12-05 17:00:00 UTC")
-    @september.projects.create(name: 'Trackathon')
+    @september.projects.create(name: 'Trackathon', product: false)
     visit "/hackathons/#{@september.id}"
   end
 
@@ -51,11 +51,11 @@ describe 'On the dashboard page' do
       expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
     end
 
-    it 'should display the completed project percentage', js: true do
+    xit 'should display the completed project percentage', js: true do
       expect(page).to have_css('#project-progress-widget input.project[data-bind-value="20"]')
     end
 
-    it 'should display the project name from the database', js: true do
+    xit 'should display the project name from the database', js: true do
       expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
     end
 
@@ -85,5 +85,3 @@ xdescribe 'Timecop tests for countdown widget' do
   end
 
 end
-
-
