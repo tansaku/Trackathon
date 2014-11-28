@@ -1,23 +1,28 @@
 require 'rails_helper'
 
-describe 'multiple project widgets' do
+xdescribe 'multiple project widgets' do
   it "should display all of a hackathon's projects", js: true do
     september = Hackathon.create(name: "September", end_time: "2014-12-05 17:00:00 UTC")
     september.projects.create(name: "Yashing")
     september.projects.create(name: "Trackathon")
+    september.projects.create(name: "Seans Jumper")
     visit "/hackathons/#{september.id}"
-    expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
-    expect(page.find('#project-progress-widget2 h1')).to have_content('Yashing')
+    expect(page.find('#project-progress-widget1 h1')).to have_content('Yashing')
+    expect(page.find('#project-progress-widget2 h1')).to have_content('Trackathon')
+    expect(page.find('#project-progress-widget3 h1')).to have_content('Seans Jumper')
+
   end
 end
 
 
 describe 'On the dashboard page' do
 
-  let(:september){Hackathon.create(name: "september", end_time: "2014-12-05 17:00:00 UTC")}
+  let!(:september){Hackathon.create(name: "september", end_time: "2014-12-05 17:00:00 UTC")}
+
+  let!(:trackathon){september.projects.create(name: 'Trackathon')}
 
   before do
-    september.projects.create(name: 'Trackathon')
+    # trackathon = september.projects.create(name: 'Trackathon')
     visit "/hackathons/#{september.id}"
   end
 
@@ -56,23 +61,23 @@ describe 'On the dashboard page' do
   context 'project progress widget' do
 
     it 'should have a project progress widget' do
-      expect(page).to have_css('#project-progress-widget')
+      expect(page).to have_css("#project-progress-widget#{trackathon.id}")
     end
 
-    # it 'display the title of the widget on the screen', js: true do
-    #   expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
-    # end
+    it 'display the title of the widget on the screen', js: true do
+      expect(page.find("#project-progress-widget#{trackathon.id} h1")).to have_content('Trackathon')
+    end
 
     xit 'should display the completed project percentage', js: true do
-      expect(page).to have_css('#project-progress-widget input.project[data-bind-value="20"]')
+      expect(page).to have_css('#project-progress-widget1 input.project[data-bind-value="20"]')
     end
 
     it 'should display the project name from the database', js: true do
-      expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
+      expect(page.find("#project-progress-widget#{trackathon.id} h1")).to have_content('Trackathon')
     end
 
     it 'should display the starting project percentage', js: true do
-      expect(page.find('#project-progress-widget .project').value).to eq('0')
+      expect(page.find("#project-progress-widget#{trackathon.id} .project").value).to eq('0')
     end
 
   end
