@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-xdescribe 'multiple project widgets' do
+describe 'multiple project widgets' do
   it "should display all of a hackathon's projects", js: true do
     september = Hackathon.create(name: "September", end_time: "2014-12-05 17:00:00 UTC")
     september.projects.create(name: "Yashing")
@@ -106,5 +106,3 @@ xdescribe 'Timecop tests for countdown widget' do
   end
 
 end
-
-
