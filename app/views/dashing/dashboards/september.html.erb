@@ -7,6 +7,7 @@
 
 <% if Hackathon.last.projects.last != nil %>
   <% @project1 = Hackathon.last.projects.last.name %>
+  <% @project2 = Hackathon.last.projects.first.name %>
 <% else %>
   <% @project1 = 'Blank' %>
 <% end %>
@@ -29,6 +30,10 @@
 
     <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
       <div id="project-progress-widget" data-id="project" data-view="Project" data-title="<%= @project1 %>" data-min="0" data-max="100"></div>
+    </li> 
+
+    <li data-row="2" data-col="1" data-sizex="1" data-sizey="1">
+      <div id="project-progress-widget2" data-id="project" data-view="Project" data-title="<%= @project2 %>" data-min="0" data-max="100"></div>
     </li> 
 
   </ul>

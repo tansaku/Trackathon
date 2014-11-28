@@ -1,12 +1,24 @@
 require 'rails_helper'
 
+describe 'multiple project widgets' do
+  it "should display all of a hackathon's projects", js: true do
+    september = Hackathon.create(name: "September", end_time: "2014-12-05 17:00:00 UTC")
+    september.projects.create(name: "Yashing")
+    september.projects.create(name: "Trackathon")
+    visit "/hackathons/#{september.id}"
+    expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
+    expect(page.find('#project-progress-widget2 h1')).to have_content('Yashing')
+  end
+end
+
 
 describe 'On the dashboard page' do
 
+  let(:september){Hackathon.create(name: "september", end_time: "2014-12-05 17:00:00 UTC")}
+
   before do
-    @september = Hackathon.create(name: "september", end_time: "2014-12-05 17:00:00 UTC")
-    @september.projects.create(name: 'Trackathon')
-    visit "/hackathons/#{@september.id}"
+    september.projects.create(name: 'Trackathon')
+    visit "/hackathons/#{september.id}"
   end
 
   context 'welcome widget' do
@@ -32,7 +44,7 @@ describe 'On the dashboard page' do
     end
 
     it 'should be able to read the time from the database' do
-      expect(@september.end_time).to eq "05-Dec-2014 17:00:00"
+      expect(september.end_time).to eq "05-Dec-2014 17:00:00"
     end
 
     it 'should exctract the finish time of the hackathon from the database ' do
@@ -55,7 +67,7 @@ describe 'On the dashboard page' do
       expect(page).to have_css('#project-progress-widget input.project[data-bind-value="20"]')
     end
 
-    xit 'should display the project name from the database', js: true do
+    it 'should display the project name from the database', js: true do
       expect(page.find('#project-progress-widget h1')).to have_content('Trackathon')
     end
 
